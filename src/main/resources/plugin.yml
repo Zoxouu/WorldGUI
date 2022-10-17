@@ -1,9 +1,0 @@
-name: WorldGUI
-version: 1.2
-main: me.zoxymodz.worldgui.WorldGUI
-authors: [ ZoxyModz ]
-website: zoxymodz.me
-commands:
-  worldgui:
-    description: allows you to have the list of worlds in an inventory.
-  txtcmd:
