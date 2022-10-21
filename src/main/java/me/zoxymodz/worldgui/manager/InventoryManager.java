@@ -1,6 +1,5 @@
 package me.zoxymodz.worldgui.manager;
 
-import com.sun.xml.internal.ws.api.message.HeaderList;
 import me.zoxymodz.worldgui.WorldGUI;
 import me.zoxymodz.worldgui.utils.HeadList;
 import me.zoxymodz.worldgui.utils.ItemBuilder;
@@ -11,9 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class InventoryManager implements Listener {
@@ -117,8 +114,7 @@ public class InventoryManager implements Listener {
         }
         if (inv.getName().equals(invDeleteWorld().getName())){
             event.setCancelled(true);
-            WorldManager worldManager = new WorldManager(main);
-            worldManager.deleteWorld(event.getCurrentItem().getItemMeta().getDisplayName(),player);
+            WorldManager.deleteWorld(event.getCurrentItem().getItemMeta().getDisplayName(),player);
             player.sendMessage(main.getPrefix() +"§eThe world §a"+ event.getCurrentItem().getItemMeta().getDisplayName() +" §ehas been successfully deleted");
             player.closeInventory();
         }
