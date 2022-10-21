@@ -8,6 +8,12 @@
 # IntelliJ
 out/
 
+# Eclipse
+.classpath
+.factorypath
+.project
+.settings/
+
 # Compiled class file
 *.class
 
@@ -111,3 +117,4 @@ buildNumber.properties
 
 # Common working directory
 run/
+server/

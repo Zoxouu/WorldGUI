@@ -2,25 +2,27 @@ package me.zoxymodz.worldgui.manager;
 
 import me.zoxymodz.worldgui.WorldGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
-import org.omg.SendingContext.RunTime;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import java.util.Comparator;
 
 public class WorldManager {
 
-    public WorldGUI main;
+    private static WorldGUI main;
 
-    public WorldManager(WorldGUI main){
-        this.main = main;
+    static {
+        main = (WorldGUI) JavaPlugin.getPlugin(WorldGUI.class);
     }
 
-    public void importWorld() {
+    public static void importWorld() {
         File dir = new File("./");
         File[] liste = dir.listFiles();
         for (File item : liste) {
@@ -32,24 +34,12 @@ public class WorldManager {
         }
     }
 
-    public void deleteWorld(String world, Player player) throws IOException {
+    public static void deleteWorld(String world, Player player) throws IOException {
         System.out.println("the world "+ world +" will be unloaded...");
         Bukkit.getServer().unloadWorld(Bukkit.getWorld(world),false);
         System.out.println("The world has been unloaded");
-        File path = Paths.get(Paths.get("").toAbsolutePath().toString(), world).toFile();
-        if (path.exists()) {
-            if (path.isDirectory()) {
-                System.out.println("deletion of the current world...");
-                ProcessBuilder builder = new ProcessBuilder();
-                if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
-                    builder.command("rmdir",path.toString());
-                } else {
-                    builder.command("rm","-r",path.toString());
-                }
-                builder.start();
-                System.out.println("The world "+ world +" has been successfully deleted");
-                player.sendMessage(main.getPrefix() +"§eThe world §a"+ world +" §ehas been successfully deleted");
-            }
-        }
+        Files.walk(Paths.get("").toAbsolutePath().resolve(world)).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+        main.getLogger().info(() -> "The world " + world + " has been successfully deleted.");
+        player.sendMessage(main.getPrefix() + "§eThe world §a" + world + " §ehas been successfully deleted.");
     }
 }

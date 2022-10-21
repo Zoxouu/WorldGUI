@@ -28,8 +28,7 @@ public class WorldGUICmd implements CommandExecutor, Listener {
             return true;
         }
 
-        WorldManager worldManager = new WorldManager(main);
-        worldManager.importWorld();
+        WorldManager.importWorld();
 
         InventoryManager inv = new InventoryManager(main);
         player.openInventory(inv.invHomeMenu());
